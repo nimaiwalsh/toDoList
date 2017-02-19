@@ -1,23 +1,50 @@
-/*App requirements
-1. It should have a place to store toDos
-2. It should have a way to display toDos
-3. It should have a way to add new toDos
-4. It should have a way to change a toDo
-5. It should have a way to delete a toDO
-*/
+/*VERSION 3 - Move the functions into a ToDoList object */
 
-//Store toDo's
-var toDos = ['item 1', 'item 2', 'item 3'];
+var toDoList = {
+    list: ['item 1', 'item 2', 'item 3'],
+    displayToDos: function() {
+        console.log(this.list);
+    },
+    
+    addTodo: function(item) {
+        this.list.push(item);  
+    },
+    
+    changeTodo: function(position, newItem) {
+        this.list[position] = newItem;
+    },
+    
+    deleteTodo: function(position) {
+        this.list.splice(position, 1);
+        this.displayToDos();
+    }
+};
 
-//Display toDO's
-console.log('Mymy toDos:', toDos);
+toDoList.deleteTodo(0);
 
-//Add toDo's to the array
-toDos.push('item 4');
-
-//Change toDos
-toDos[3] = 'item 4 updated';
-
-//Delete a toDo
-toDos.splice(1, 1);
-console.log(toDos)
+///*VERSION 2*/
+////A place to store the ToDos
+//var toDoList = ['item 1', 'item 2', 'item 3'];
+//
+////2. It should have a function to display toDos
+//function displayTodos() {
+//    console.log('To Do List:', toDoList);
+//}
+//
+////3. It should have a function to add new toDos
+//function addTodo(item) {
+//    toDoList.push(item);
+//    displayTodos();
+//}
+//
+////4. It should have a function to change a toDo
+//function changeTodo(position, newItem) {
+//    toDoList[position] = newItem;
+//    displayTodos();
+//}
+//
+////5. It should have a function to delete a toDO
+//function deleteTodo(position) {
+//    toDoList.splice(position, 1); 
+//    displayTodos();
+//}
