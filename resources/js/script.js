@@ -1,7 +1,6 @@
-/*VERSION 5
-1. displayToDos should show .todoText
-2. displayToDos should tell you if toDos is empty
-3. displayToDos should show .completed*/
+/* VERSION 6*/
+//1. toggleAll: if everything is true, make everything false 
+//2. toggleAll: otherwise make everything true
 
 var toDoList = {
     //Store toDos
@@ -37,6 +36,31 @@ var toDoList = {
         this.displayToDos();
     },
     
+    //toggleAll
+    toggleAll: function() {
+        var totalToDos = this.toDos.length;
+        var completedToDos = 0;
+        //Find number of completed toDos
+        for (var i = 0; i < totalToDos; i++) {
+            if (this.toDos[i].completed === true) {
+                completedToDos++;
+            }
+        }
+       //Case 1: if everything is true make everything false
+        if (completedToDos === totalToDos) {
+            for (var i = 0; i < totalToDos; i++) {
+                this.toDos[i].completed = false;    
+            } 
+        //Case 2: else make everything false     
+        } else {
+            for (var i = 0; i < totalToDos; i++) {
+                this.toDos[i].completed = true;    
+            }  
+        }
+        
+        this.displayToDos();
+    },
+    
     //Toggle completed
     toggleCompleted: function(position) {
         var todo = this.toDos[position];
@@ -51,6 +75,61 @@ var toDoList = {
     }
 };
 
+//===================================
+
+/*VERSION 5
+1. displayToDos should show .todoText
+2. displayToDos should tell you if toDos is empty
+3. displayToDos should show .completed*/
+
+//var toDoList = {
+//    //Store toDos
+//    toDos: [],
+//    
+//    displayToDos: function() {
+//        if (this.toDos.length === 0) {
+//            console.log("You have no toDos");
+//        } else {
+//            for (var i  = 0; i < this.toDos.length; i++) {
+//                //show completed toDos
+//                if (this.toDos[i].completed === true) {
+//                    console.log('(x)', this.toDos[i].todoText);
+//                } else {
+//                    console.log('( )', this.toDos[i].todoText);
+//                }
+//            }
+//        }        
+//    }, 
+//    
+//    //Create objects for toDos.
+//    addTodo: function(toDoText) {
+//        this.toDos.push({
+//            todoText: toDoText,
+//            completed: false
+//        });
+//        this.displayToDos();
+//    },
+//    
+//    //Change the toDoText property
+//    changeTodo: function(position, todoText) {
+//        this.toDos[position].todoText = todoText;
+//        this.displayToDos();
+//    },
+//    
+//    //Toggle completed
+//    toggleCompleted: function(position) {
+//        var todo = this.toDos[position];
+//        todo.completed = !todo.completed;
+//        this.displayToDos();
+//    },
+//    
+//    //deleteToDo method
+//    deleteTodo: function(position) {
+//        this.toDos.splice(position, 1);
+//        this.displayToDos();
+//    }
+//};
+
 
 //======================================
 
@@ -58,6 +137,7 @@ var toDoList = {
 1. toDoList.addTodo should add objects.
 2. toDoList.changeTodo should change the toDoText property
 3. toDoList.toggleCompleted should change the completed property*/
+
 //var toDoList = {
 //    //Store toDos
 //    toDos: [],
