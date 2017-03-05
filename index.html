@@ -23,8 +23,33 @@
     -->
     
     <h1>toDo List</h1>
-       <button id="displayToDosBtn">Display toDos</button>
-       <button id="toggleAllBtn">Toggle All</button>
+      
+        <div>
+            <button onclick="handlers.displayToDos()">Display ToDos</button>
+            <button onclick="handlers.toggleAll()">Toggle All</button>
+        </div>
+
+        <div>
+            <button onclick="handlers.addToDo()">Add ToDo</button>
+            <input id="addToDoTextInput" type="text"/> 
+        </div>
+           
+        <div>
+            <button onclick="handlers.changeToDo()">Change ToDo</button>
+            <input id="changeToDoPositionInput" type="number" value="0"/>
+            <input id="changeToDoTextInput" type="text" value="New toDo"/> 
+        </div>
+        
+        <div>
+            <button onclick="handlers.deleteToDo()">Delete ToDo</button>
+            <input id="deleteToDoInput" type="number" value="0"/>
+        </div>         
+
+        <div>
+           <button onclick="handlers.toggleCompleted()">Toggle Completed</button>
+           <input id="toggleCompletedInput" type="number" value="0"/>
+        </div>
+            
 
        
         

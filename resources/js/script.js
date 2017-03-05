@@ -1,4 +1,10 @@
-/* VERSION 7*/
+/* VERSION 8 - Rafactoring the code and added button functionality*/
+/*
+1. Should have working controls for .addTodo
+2. Should have working controls for .changeTodo
+3. Should have working controls for .deleteTodo
+4. Should have working controls for .toggleCompleted
+*/
 var toDoList = {
     //Store toDos
     toDos: [],
@@ -19,7 +25,7 @@ var toDoList = {
     },
 
     //Create objects for toDos.
-    addTodo: function (toDoText) {
+    addToDo: function (toDoText) {
         this.toDos.push({
             todoText: toDoText,
             completed: false
@@ -28,8 +34,15 @@ var toDoList = {
     },
 
     //Change the toDoText property
-    changeTodo: function (position, todoText) {
+    changeToDo: function (position, todoText) {
         this.toDos[position].todoText = todoText;
+        this.displayToDos();
+    },
+    
+    //Toggle completed
+    toggleCompleted: function (position) {
+        var todo = this.toDos[position];
+        todo.completed = !todo.completed;
         this.displayToDos();
     },
 
@@ -58,30 +71,130 @@ var toDoList = {
         this.displayToDos();
     },
 
-    //Toggle completed
-    toggleCompleted: function (position) {
-        var todo = this.toDos[position];
-        todo.completed = !todo.completed;
-        this.displayToDos();
-    },
-
     //deleteToDo method
-    deleteTodo: function (position) {
+    deleteToDo: function (position) {
         this.toDos.splice(position, 1);
         this.displayToDos();
     }
 };
 
-var displayToDosBtn = document.getElementById('displayToDosBtn');
-var toggleAllBtn = document.getElementById('toggleAllBtn');
+//All the methods that handle the different events
+var handlers = {
+    displayToDos: function() {
+        toDoList.displayToDos();
+    },
+    addToDo: function() {
+        var  addToDoTextInput = document.getElementById('addToDoTextInput');
+        toDoList.addToDo(addToDoTextInput.value);
+        addToDoTextInput.value = "";
+    },
+    changeToDo: function() {
+        var changeToDoPosition = document.getElementById('changeToDoPositionInput');
+        var changeToDoTextInput = document.getElementById('changeToDoTextInput');
+        toDoList.changeToDo(changeToDoPosition.valueAsNumber, changeToDoTextInput.value);
+        changeToDoPosition.value = "";
+        changeToDoTextInput.value = "";
+    },
+    deleteToDo: function() {
+        var deleteToDoInput = document.getElementById('deleteToDoInput');
+        toDoList.deleteToDo(deleteToDoInput.valueAsNumber);
+        deleteToDoInput.value = "";
+    },
+    toggleCompleted: function() {
+        var toggleCompleted = document.getElementById('toggleCompletedInput');
+        toDoList.toggleCompleted(toggleCompleted.valueAsNumber);
+        toggleCompleted.value = "";
+        
+    },
+    toggleAll: function() {
+        toDoList.toggleAll();
+    }
+};
 
-displayToDosBtn.addEventListener('click', function () {
-    toDoList.displayToDos();
-});
-
-toggleAllBtn.addEventListener('click', function () {
-    toDoList.toggleAll();
-});
+///* VERSION 7*/
+//var toDoList = {
+//    //Store toDos
+//    toDos: [],
+//
+//    displayToDos: function () {
+//        if (this.toDos.length === 0) {
+//            console.log("You have no toDos");
+//        } else {
+//            for (var i = 0; i < this.toDos.length; i++) {
+//                //show completed toDos
+//                if (this.toDos[i].completed === true) {
+//                    console.log('(x)', this.toDos[i].todoText);
+//                } else {
+//                    console.log("( )", this.toDos[i].todoText);
+//                }
+//            }
+//        }
+//    },
+//
+//    //Create objects for toDos.
+//    addTodo: function (toDoText) {
+//        this.toDos.push({
+//            todoText: toDoText,
+//            completed: false
+//        });
+//        this.displayToDos();
+//    },
+//
+//    //Change the toDoText property
+//    changeTodo: function (position, todoText) {
+//        this.toDos[position].todoText = todoText;
+//        this.displayToDos();
+//    },
+//    
+//    //Toggle completed
+//    toggleCompleted: function (position) {
+//        var todo = this.toDos[position];
+//        todo.completed = !todo.completed;
+//        this.displayToDos();
+//    },
+//
+//    //toggleAll
+//    toggleAll: function () {
+//        var totalToDos = this.toDos.length;
+//        var completedToDos = 0;
+//        //Find number of completed toDos
+//        for (var i = 0; i < totalToDos; i++) {
+//            if (this.toDos[i].completed === true) {
+//                completedToDos++;
+//            }
+//        }
+//        //Case 1: if everything is true make everything false
+//        if (completedToDos === totalToDos) {
+//            for (var i = 0; i < totalToDos; i++) {
+//                this.toDos[i].completed = false;
+//            }
+//            //Case 2: else make everything true     
+//        } else {
+//            for (var i = 0; i < totalToDos; i++) {
+//                this.toDos[i].completed = true;
+//            }
+//        }
+//
+//        this.displayToDos();
+//    },
+//
+//    //deleteToDo method
+//    deleteTodo: function (position) {
+//        this.toDos.splice(position, 1);
+//        this.displayToDos();
+//    }
+//};
+//
+//var displayToDosBtn = document.getElementById('displayToDosBtn');
+//var toggleAllBtn = document.getElementById('toggleAllBtn');
+//
+//displayToDosBtn.addEventListener('click', function () {
+//    toDoList.displayToDos();
+//});
+//
+//toggleAllBtn.addEventListener('click', function () {
+//    toDoList.toggleAll();
+//});
 
 
 /* VERSION 6*/
