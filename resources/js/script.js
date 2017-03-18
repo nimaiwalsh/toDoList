@@ -1,9 +1,6 @@
-/*VERSION 10 - ADDING DELETE BUTTONS 
-1. There should be a way to create 'Delete buttons'
-2. There should be a delete button for each today
-3. Each li should have an id that has the todo position
-4. Delete buttons should have access to the todo id
-5. Clicking delete should update todoList.toDos and the dom
+/*VERSION 11 - Remove all FOR LOOPS
+1. todoList.toggleAll should use forEach
+2. view.displayToDos should use forEach
 */
 var toDoList = {
     //Store toDos
@@ -32,23 +29,24 @@ var toDoList = {
     toggleAll: function () {
         var totalToDos = this.toDos.length;
         var completedToDos = 0;
-        //Find number of completed toDos
-        for (var i = 0; i < totalToDos; i++) {
-            if (this.toDos[i].completed === true) {
+        
+        //Count the number of completed toDos
+        this.toDos.forEach(function(toDo) {
+            if (toDo.completed === true) {
                 completedToDos++;
             }
-        }
-        //Case 1: if everything is true make everything false
-        if (completedToDos === totalToDos) {
-            for (var i = 0; i < totalToDos; i++) {
-                this.toDos[i].completed = false;
+        });   
+        
+        //Perform the toggle
+        this.toDos.forEach(function(toDo) {
+            //case 1: if everything is true make everything false
+            if (completedToDos === totalToDos) {
+                toDo.completed = false;
+            //Case 2: else make everything true
+            } else {
+                toDo.completed = true;
             }
-            //Case 2: else make everything true     
-        } else {
-            for (var i = 0; i < totalToDos; i++) {
-                this.toDos[i].completed = true;
-            }
-        }
+        });
     },
 
     //deleteToDo method
@@ -94,23 +92,23 @@ var handlers = {
 var view = {
     displayToDos: function () {
         var toDosUl = document.querySelector('ul'); 
-        toDosUl.innerHTML = '';
-        for (var i = 0; i < toDoList.toDos.length; i++) {
+        toDosUl.innerHTML = '';       
+        //Display each toDo into the DOM
+        toDoList.toDos.forEach(function(toDo, position) {
             var toDosLi = document.createElement('li');
-            var toDos = toDoList.toDos[i];
             var todoTextWithCompletion = '';
             
-            if (toDos.completed === true) {
-                todoTextWithCompletion = '(x) ' + toDos.todoText;
+            if (toDo.completed === true) {
+                todoTextWithCompletion = '(x) ' + toDo.todoText;
             } else {
-                todoTextWithCompletion = '( ) ' + toDos.todoText;
+                todoTextWithCompletion = '( ) ' + toDo.todoText;
             }
             
-            toDosLi.id = i;
+            toDosLi.id = position;
             toDosLi.textContent = todoTextWithCompletion;
             toDosLi.appendChild(this.createDeleteButton());
             toDosUl.appendChild(toDosLi);
-        }
+        }, this); 
     },
     
     createDeleteButton: function () {
@@ -138,8 +136,149 @@ var view = {
 
 view.setUpEventListeners();
 
+
+/*VERSION 10 - ADDING DELETE BUTTONS 
+1. There should be a way to create 'Delete buttons'
+2. There should be a delete button for each today
+3. Each li should have an id that has the todo position
+4. Delete buttons should have access to the todo id
+5. Clicking delete should update todoList.toDos and the dom
+*/
+//var toDoList = {
+//    //Store toDos
+//    toDos: [],
+//
+//    //Create objects for toDos.
+//    addToDo: function (toDoText) {
+//        this.toDos.push({
+//            todoText: toDoText,
+//            completed: false
+//        });
+//    },
+//
+//    //Change the toDoText property
+//    changeToDo: function (position, todoText) {
+//        this.toDos[position].todoText = todoText;
+//    },
+//    
+//    //Toggle completed
+//    toggleCompleted: function (position) {
+//        var todo = this.toDos[position];
+//        todo.completed = !todo.completed;
+//    },
+//
+//    //toggleAll
+//    toggleAll: function () {
+//        var totalToDos = this.toDos.length;
+//        var completedToDos = 0;
+//        //Find number of completed toDos
+//        for (var i = 0; i < totalToDos; i++) {
+//            if (this.toDos[i].completed === true) {
+//                completedToDos++;
+//            }
+//        }
+//        //Case 1: if everything is true make everything false
+//        if (completedToDos === totalToDos) {
+//            for (var i = 0; i < totalToDos; i++) {
+//                this.toDos[i].completed = false;
+//            }
+//            //Case 2: else make everything true     
+//        } else {
+//            for (var i = 0; i < totalToDos; i++) {
+//                this.toDos[i].completed = true;
+//            }
+//        }
+//    },
+//
+//    //deleteToDo method
+//    deleteToDo: function (position) {
+//        this.toDos.splice(position, 1);
+//    }
+//};
+//
+////All the methods that handle the different events
+//var handlers = {
+//    addToDo: function() {
+//        var addToDoTextInput = document.getElementById('addToDoTextInput');
+//        toDoList.addToDo(addToDoTextInput.value);
+//        addToDoTextInput.value = "";
+//        view.displayToDos();
+//    },
+//    changeToDo: function() {
+//        var changeToDoPosition = document.getElementById('changeToDoPositionInput');
+//        var changeToDoTextInput = document.getElementById('changeToDoTextInput');
+//        toDoList.changeToDo(changeToDoPosition.valueAsNumber, changeToDoTextInput.value);
+//        changeToDoPosition.value = "";
+//        changeToDoTextInput.value = "";
+//        view.displayToDos();
+//    },
+//    deleteToDo: function(position) {
+//        toDoList.deleteToDo(position);
+//        view.displayToDos();
+//    },
+//    toggleCompleted: function() {
+//        var toggleCompleted = document.getElementById('toggleCompletedInput');
+//        toDoList.toggleCompleted(toggleCompleted.valueAsNumber);
+//        toggleCompleted.value = "";
+//        view.displayToDos();
+//        
+//    },
+//    toggleAll: function() {
+//        toDoList.toggleAll();
+//        view.displayToDos();
+//    }
+//};
+//
+////Insert the data into the DOM
+//var view = {
+//    displayToDos: function () {
+//        var toDosUl = document.querySelector('ul'); 
+//        toDosUl.innerHTML = '';
+//        for (var i = 0; i < toDoList.toDos.length; i++) {
+//            var toDosLi = document.createElement('li');
+//            var toDos = toDoList.toDos[i];
+//            var todoTextWithCompletion = '';
+//            
+//            if (toDos.completed === true) {
+//                todoTextWithCompletion = '(x) ' + toDos.todoText;
+//            } else {
+//                todoTextWithCompletion = '( ) ' + toDos.todoText;
+//            }
+//            
+//            toDosLi.id = i;
+//            toDosLi.textContent = todoTextWithCompletion;
+//            toDosLi.appendChild(this.createDeleteButton());
+//            toDosUl.appendChild(toDosLi);
+//        }
+//    },
+//    
+//    createDeleteButton: function () {
+//        //Create the button
+//        var deleteButton = document.createElement('button');
+//        deleteButton.textContent = 'Delete';
+//        deleteButton.className = 'deleteButton';
+//        return deleteButton;
+//    },
+//    
+//    setUpEventListeners: function () {
+//        var toDosUl = document.querySelector('ul');
+//
+//        toDosUl.addEventListener('click', function (event) {
+//            //get the elemnt that was clicked on
+//            var elementClicked = event.target;
+//            //Check that element clicked was the DeleteButton
+//            if (elementClicked.className === 'deleteButton') {
+//                //Run handler.deleteToDo parsing in LI id as number
+//                handlers.deleteToDo(parseInt(elementClicked.parentNode.id));
+//            }
+//        });
+//    }
+//};
+//
+//view.setUpEventListeners();
+
 /*  VERSION 9 - ESCAPING THE CONSOLE */
-/*
+/* 
 1. There should be an <li> element for every toDo
 2. Each li element should contain .toDotext 
 3. Each element should show .completed
